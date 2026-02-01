@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Context-Aware Document QA Assistant</title>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fdfbfb, #ebedee);
+            color: #333;
+            margin: 0;
+            padding: 30px 50px;
+        }
+
+        h2 {
+            color: #fff;
+            background: linear-gradient(90deg, #3498db, #9b59b6);
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        hr {
+            border: 0;
+            height: 2px;
+            background: #dcdcdc;
+            margin: 30px 0;
+        }
+
+        /* Form Styles */
+        form {
+            margin-bottom: 25px;
+            background: #fff;
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        form:hover {
+            transform: translateY(-3px);
+        }
+
+        input[type="file"],
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="file"]:focus,
+        input[type="text"]:focus {
+            border-color: #9b59b6;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #3498db, #9b59b6);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #9b59b6, #3498db);
+            transform: scale(1.05);
+        }
+
+        /* Answer Section */
+        h3 {
+            color: #fff;
+            background: linear-gradient(90deg, #16a085, #1abc9c);
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        p {
+            background: #ecf0f1;
+            padding: 12px 15px;
+            border-left: 6px solid #16a085;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 1.6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        h4 {
+            margin-top: 15px;
+            color: #34495e;
+        }
+
+        ul {
+            list-style-type: square;
+            margin-left: 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            background: #f1f1f1;
+            padding: 5px 10px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        /* Uploaded Files Section */
+        h3.uploaded {
+            margin-top: 25px;
+            color: #fff;
+            background: linear-gradient(90deg, #e67e22, #f39c12);
+            padding: 8px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        ul.uploaded-files li {
+            background: #f39c12;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Upload Documents</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="files" multiple>
+    <button type="submit">Upload</button>
+</form>
+
+<hr>
+
+<h2>Ask Question</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="question" style="width:400px;">
+    <button type="submit">Ask</button>
+</form>
+
+<hr>
+
+{% if answer %}
+<h3>Answer:</h3>
+<p>{{ answer }}</p>
+
+<h4>Sources:</h4>
+<ul>
+    {% for s in sources %}
+        <li>{{ s }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+</body>
+</html>
